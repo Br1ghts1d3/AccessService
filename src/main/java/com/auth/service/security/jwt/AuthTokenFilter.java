@@ -19,8 +19,9 @@ import java.io.IOException;
 
 
 public class AuthTokenFilter extends OncePerRequestFilter {
-    @Autowired
-    private JwtUtils jwtUtils;
+
+
+    private final JwtUtils jwtUtils =  new JwtUtils();
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
