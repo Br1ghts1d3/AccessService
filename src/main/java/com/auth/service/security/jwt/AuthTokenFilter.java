@@ -20,14 +20,21 @@ import java.io.IOException;
 
 public class AuthTokenFilter extends OncePerRequestFilter {
 
+    public AuthTokenFilter(){}
 
     private final JwtUtils jwtUtils =  new JwtUtils();
 
-    @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthTokenFilter.class);
 
+    @Autowired
+    public AuthTokenFilter(UserDetailsServiceImpl userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
+
+
+    @SuppressWarnings("NullableProblems")
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
@@ -44,7 +51,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception e) {
-            LOGGER.error("Cannot set user authentication: {}", e);
+            LOGGER.error("Cannot set user authentication: %s", e);
         }
 
         filterChain.doFilter(request, response);
@@ -54,7 +61,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         String headerAuth = request.getHeader("Authorization");
 
         if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
-            return headerAuth.substring(7, headerAuth.length());
+            return headerAuth.substring(7);
         }
 
         return null;
