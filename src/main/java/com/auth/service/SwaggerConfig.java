@@ -20,7 +20,7 @@ public class SwaggerConfig {
                 .info(new Info().title("Authentication Service")
                         .description("This is auth service use for validate the user.")
                         .version("v0.0.1")
-                        .license(new License().name("Apache 2.0").url("http://springdoc.org")))
+                        .license(new License().name("Apache 2.0").url("https://docs.spring.io")))
                 .externalDocs(new ExternalDocumentation()
                         .description("SpringBoot Wiki Documentation")
                         .url("https://springboot.wiki.github.org/docs"))
@@ -36,4 +36,4 @@ public class SwaggerConfig {
                                 )
                 );
     }
-}
+} 
