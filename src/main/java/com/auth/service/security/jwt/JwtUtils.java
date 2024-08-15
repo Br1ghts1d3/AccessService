@@ -17,10 +17,9 @@ import java.util.Date;
 public class JwtUtils {
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
-    @Value("${bezkoder.app.jwtSecret}")
+
     private String jwtSecret;
 
-    @Value("${bezkoder.app.jwtExpirationMs}")
     private int jwtExpirationMs;
 
     public String generateJwtToken(Authentication authentication) {
@@ -59,5 +58,23 @@ public class JwtUtils {
         }
 
         return false;
+    }
+
+    public String getJwtSecret() {
+        return jwtSecret;
+    }
+
+    @Value("${access.service.jwtSecret}")
+    public void setJwtSecret(String jwtSecret) {
+        this.jwtSecret = jwtSecret;
+    }
+
+    public int getJwtExpirationMs() {
+        return jwtExpirationMs;
+    }
+
+    @Value("${access.service.jwtExpirationMs}")
+    public void setJwtExpirationMs(int jwtExpirationMs) {
+        this.jwtExpirationMs = jwtExpirationMs;
     }
 }

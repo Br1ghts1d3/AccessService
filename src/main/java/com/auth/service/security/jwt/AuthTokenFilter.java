@@ -20,18 +20,18 @@ import java.io.IOException;
 
 public class AuthTokenFilter extends OncePerRequestFilter {
 
-    public AuthTokenFilter(){}
+    private final JwtUtils jwtUtils;
 
-    private final JwtUtils jwtUtils =  new JwtUtils();
+    private final UserDetailsServiceImpl userDetailsService;
 
-    private UserDetailsServiceImpl userDetailsService;
+    @Autowired
+    public AuthTokenFilter(JwtUtils jwtUtils, UserDetailsServiceImpl userDetailsService){
+        this.jwtUtils = jwtUtils;
+        this.userDetailsService = userDetailsService;
+    }
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthTokenFilter.class);
 
-    @Autowired
-    public AuthTokenFilter(UserDetailsServiceImpl userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
 
 
     @SuppressWarnings("NullableProblems")
