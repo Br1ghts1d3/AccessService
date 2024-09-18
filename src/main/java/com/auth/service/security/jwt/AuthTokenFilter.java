@@ -1,13 +1,14 @@
 package com.auth.service.security.jwt;
 
 import com.auth.service.security.services.UserDetailsServiceImpl;
+import com.mongodb.lang.NonNull;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,8 +24,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     private final JwtUtils jwtUtils;
 
     private final UserDetailsServiceImpl userDetailsService;
-
-    @Autowired
+    
     public AuthTokenFilter(JwtUtils jwtUtils, UserDetailsServiceImpl userDetailsService){
         this.jwtUtils = jwtUtils;
         this.userDetailsService = userDetailsService;
@@ -36,7 +36,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
     @SuppressWarnings("NullableProblems")
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+    @NonNull
+    protected void doFilterInternal(@SuppressWarnings("null") HttpServletRequest request, @SuppressWarnings("null") HttpServletResponse response, @SuppressWarnings("null") FilterChain filterChain)
             throws ServletException, IOException {
         try {
             String jwt = parseJwt(request);

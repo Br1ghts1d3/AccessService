@@ -1,0 +1,12 @@
+{"properties": [
+  {
+    "name": "access.service.jwtSecret",
+    "type": "java.lang.String",
+    "description": "A description for 'access.service.jwtSecret'"
+  },
+  {
+    "name": "access.service.jwtExpirationMs",
+    "type": "java.lang.String",
+    "description": "A description for 'access.service.jwtExpirationMs'"
+  }
+]}
