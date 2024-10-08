@@ -64,6 +64,9 @@ public class WebSecurityConfig {
     private static final String[] AUTH_WHITELIST = {
             "/v3/api-docs/**",
             "/swagger-ui/**",
+            "/auth/welcome",
+            "/auth/signup",
+            "/auth/signin"
     };
 
 
@@ -72,12 +75,14 @@ public class WebSecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/auth/**").permitAll().requestMatchers("/api/test/**").permitAll().requestMatchers(AUTH_WHITELIST)
-                        .permitAll().anyRequest().authenticated());
-        http.authenticationProvider(authenticationProvider());
-
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-
+                .authorizeHttpRequests(
+                        auth -> auth
+                                .requestMatchers("/auth/user/**").hasAuthority("ROLE_USER")
+                                .requestMatchers("/auth/admin/**").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers(AUTH_WHITELIST).permitAll()
+                                .anyRequest().authenticated()
+                ).authenticationProvider(authenticationProvider())
+                .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 }
